@@ -50,6 +50,17 @@ getGapTimes <- function(d.tmp) {
   
 }
 
+getData <- function(Result.all.lst,wy=c('WY2016'),st=c('RICH'),vars=c('Tempw')) {
+  sn <- as.character(site.df$All[which(site.df$All$Site_name %in% st),'Site_no'])
+  if(all(wy %in% unique(ds.cur$WaterYear)) & all(sn %in% unique(ds.cur$site_no))) {
+    s.ind <- which(ds.cur$WaterYear %in% wy & ds.cur$site_no %in% sn) 
+    cat('select\n')
+    return(ds.cur[s.ind,])
+  }
+  ds.cur <- extractData(Result.all.lst=Result.all.lst,wy=wy,st=st,vars=vars)
+  return(ds.cur)
+} 
+
 extractData <- function(flgUpDate=T,Result.all.lst,wy=c('WY2016'),st=c('RICH'),vars=c('Tempw'),resetDates=T) {
   
   flgRecalcStatSummary <<- T
